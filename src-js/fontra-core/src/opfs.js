@@ -168,6 +168,14 @@ async function writeFileToOPFSInWorker(path, file) {
           resolve(event.data.returnValue);
         }
       };
+      worker.onmessageerror = (event) => {
+        console.log("message error from web worker:", event);
+        reject(event.message);
+      };
+      worker.onerror = (event) => {
+        console.log("error from web worker:", event);
+        reject(event.message);
+      };
       worker.postMessage({ path, file });
     }),
     5000
