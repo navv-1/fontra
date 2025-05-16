@@ -147,8 +147,12 @@ let worker;
 
 function getWriteWorker() {
   if (!worker) {
-    const path = "/core/opfs-write-worker.js"; // + `?${Math.random()}`;
-    worker = new Worker(path);
+    worker = new Worker(
+      /* webpackChunkName: "opfs-write-worker" */ new URL(
+        "./opfs-write-worker.js",
+        import.meta.url
+      )
+    );
   }
   return worker;
 }
